@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Men's Clothing</title>
+    <style>
+        #mens-clothing-container {
+          display: flex;
+
+        }
+        .product {
+            border: 1px solid #ccc;
+            padding: 16px;
+            margin: 16px;
+            text-align: center;
+            width: 250px;
+            margin-left: 50px;
+            box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        .product:hover{
+            cursor: pointer;
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+        }
+        .product button{
+         width: 180px;
+         height: 35px;
+         font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+         background-color: rgb(142, 142, 230);
+         text-align: center;
+         margin: 30px 30px;
+
+        }
+        .product button :hover{
+         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+         cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Electronics</h1>
+    <div id="mens-clothing-container"></div>
+    <button>Add to cart</button>
+
+    <script>
+        // Function to fetch and filter men's clothing and display them on the page
+        async function fetchMensClothing() {
+            try {
+                // Fetch the data from the Fake Store API
+                const response = await fetch('https://fakestoreapi.com/products');
+                const products = await response.json();
+
+                // Filter the products for the men's clothing category
+                const mensClothing = products.filter(product => product.category === "electronics");
+
+                // Get the container to display the products
+                const container = document.getElementById('mens-clothing-container');
+
+                // Display each product as an HTML element
+                mensClothing.forEach(product => {
+                    // Create a div for each product
+                    const productDiv = document.createElement('div');
+                    productDiv.className = 'product';
+
+                    // Add product name
+                    const title = document.createElement('h2');
+                    title.textContent = product.title;
+
+                    // Add product image
+                    const img = document.createElement('img');
+                    img.src = product.image;
+                    img.alt = product.title;
+
+                    // Add product price
+                    const price = document.createElement('p');
+                    price.textContent = `Price: $${product.price}`;
+
+                    // Append title, image, and price to the product div
+                    productDiv.appendChild(title);
+                    productDiv.appendChild(img);
+                    productDiv.appendChild(price);
+                    let btn = document.createElement("button");
+                    btn.innerHTML = `Add to Cart`;
+                    productDiv.appendChild(btn)
+
+                    // Append the product div to the container
+                    container.appendChild(productDiv);
+                });
+
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        }
+
+        // Fetch and display men's clothing when the page loads
+        fetchMensClothing();
+    </script>
+</body>
+</html>
